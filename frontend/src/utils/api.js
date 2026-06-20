@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const baseURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https://sky-vault-lau4.onrender.com/api' : 'http://localhost:5000/api');
 if (!import.meta.env.VITE_API_URL) {
-  console.warn('VITE_API_URL is not defined. Falling back to http://localhost:5000/api');
+  console.warn(`VITE_API_URL is not defined. Falling back to ${baseURL}`);
 }
 
 const api = axios.create({

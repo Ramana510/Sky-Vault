@@ -19,7 +19,26 @@ connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: process.env.FRONTEND_URL || 'https://sky-vault-two.vercel.app', credentials: true }));
+const allowedOrigins = [
+  'https://sky-vault-two.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to Sky Vault API' });
