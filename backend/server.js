@@ -62,3 +62,4 @@ server.on('error', (error) => {
   console.error(error);
   process.exit(1);
 });
+console.log("Server reloaded");
